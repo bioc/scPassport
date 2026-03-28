@@ -50,5 +50,5 @@ if (requireNamespace("SummarizedExperiment", quietly = TRUE)) {
 
 }
 \seealso{
-\code{\link{seuratPassport}}, \code{\link{read_passport}}
+\code{\link{scPassport}}, \code{\link{read_passport}}
 }

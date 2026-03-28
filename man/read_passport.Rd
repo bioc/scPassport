@@ -8,7 +8,7 @@ read_passport(obj)
 }
 \arguments{
 \item{obj}{A Seurat, SingleCellExperiment, or SummarizedExperiment object
-with a passport stamped via \code{\link{seuratPassport}}.}
+with a passport stamped via \code{\link{scPassport}}.}
 }
 \value{
 Invisibly returns \code{NULL}. Output is printed to console.
@@ -30,11 +30,11 @@ if (requireNamespace("SummarizedExperiment", quietly = TRUE)) {
 # Read passport on a stamped Seurat object (requires existing object 'WTHeme')
 # read_passport(WTHeme)
 #
-# Or via seuratPassport with read = TRUE:
-# seuratPassport(WTHeme, read = TRUE)
+# Or via scPassport with read = TRUE:
+# scPassport(WTHeme, read = TRUE)
 }
 
 }
 \seealso{
-\code{\link{seuratPassport}}, \code{\link{log_step}}
+\code{\link{scPassport}}, \code{\link{log_step}}
 }
