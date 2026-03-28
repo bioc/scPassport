@@ -1,15 +1,15 @@
 ---
-title: "Getting Started with seuratPassport"
+title: "Getting Started with scPassport"
 author:
   - name: Sedat Kacar
     affiliation: Indiana University
 date: "`r Sys.Date()`"
 output:
-  BiocStyle::html_document:
+  rmarkdown::html_vignette:
     toc: true
     toc_depth: 2
 vignette: >
-  %\VignetteIndexEntry{Getting Started with seuratPassport}
+  %\VignetteIndexEntry{Getting Started with scPassport}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-`seuratPassport` solves a common problem in single-cell RNA-seq analysis:
+`scPassport` solves a common problem in single-cell RNA-seq analysis:
 **Seurat objects accumulate complex processing histories, but that context
 disappears once collaborators open the `.rds` file.**
 
@@ -36,7 +36,7 @@ The package provides three functions:
 
 | Function | Purpose |
 |---|---|
-| `seuratPassport()` | Open the Shiny popup to fill or update a passport |
+| `scPassport()` | Open the Shiny popup to fill or update a passport |
 | `read_passport()` | Print the full passport and processing log to console |
 | `log_step()` | Append a processing step to the object's log |
 
@@ -46,24 +46,24 @@ The package provides three functions:
 # From Bioconductor (once accepted):
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("seuratPassport")
+BiocManager::install("scPassport")
 
 # Development version from GitHub:
-# devtools::install_github("sedatkacar56/seuratPassport")
+# devtools::install_github("sedatkacar56/scPassport")
 ```
 
 # Quick Start
 
 ## Stamping a root object
 
-Call `seuratPassport()` on any Seurat object. An interactive Shiny popup
+Call `scPassport()` on any Seurat object. An interactive Shiny popup
 opens in your RStudio Viewer. Fill in the fields and click **Done**.
 
 ```{r stamp-root}
-library(seuratPassport)
+library(scPassport)
 
 # WTHeme is your Seurat object
-WTHeme <- seuratPassport(WTHeme)
+WTHeme <- scPassport(WTHeme)
 ```
 
 The passport is now stored in `WTHeme@misc$passport` and will persist
@@ -79,7 +79,7 @@ automatically — no typing needed.
 EndofrHeme <- subset(WTHeme, idents = "Endothelial")
 
 # parent = WTHeme fills parent_id and lineage automatically
-EndofrHeme <- seuratPassport(EndofrHeme, parent = WTHeme)
+EndofrHeme <- scPassport(EndofrHeme, parent = WTHeme)
 ```
 
 `EndofrHeme@misc$passport$lineage` will now contain the full ancestry chain
@@ -92,7 +92,7 @@ back to the root object.
 read_passport(WTHeme)
 
 # Or via the main function with read = TRUE
-seuratPassport(WTHeme, read = TRUE)
+scPassport(WTHeme, read = TRUE)
 ```
 
 Example output:

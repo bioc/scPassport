@@ -16,50 +16,50 @@
 #'   to stamp. Must not be NULL.
 #' @param parent A parent object of the same class that this object was subset
 #'   from. If provided, \code{parent_id} and \code{lineage} are automatically
-#'   populated from the parent's passport — no typing needed.
+#'   populated from the parent's passport - no typing needed.
 #'   Default is \code{NULL} (root object).
 #' @param read Logical. If \code{TRUE}, prints the existing passport to the
 #'   console instead of opening the popup. Default is \code{FALSE}.
 #'
 #' @return The same object with its passport slot filled in.
 #'   If cancelled or an error occurs, the original object is returned unchanged
-#'   — it will never return \code{NULL}.
+#'   - it will never return \code{NULL}.
 #'
 #' @details
 #' The passport contains the following fields:
 #'
 #' \strong{Identity:}
 #' \itemize{
-#'   \item \code{object_id}  — Name/ID of this object (e.g. "WTHeme")
-#'   \item \code{rds_self}   — RDS registry number of this object (e.g. 224)
-#'   \item \code{created}    — Timestamp of when passport was stamped
+#'   \item \code{object_id}  -Name/ID of this object (e.g. "WTHeme")
+#'   \item \code{rds_self}   -RDS registry number of this object (e.g. 224)
+#'   \item \code{created}    -Timestamp of when passport was stamped
 #' }
 #'
 #' \strong{Animal Info:}
 #' \itemize{
-#'   \item \code{animal_id}  — Individual animal identifier (e.g. "M01")
-#'   \item \code{species}    — Species name (e.g. "Mus musculus")
-#'   \item \code{sex}        — Sex of the animal (e.g. "male", "female")
-#'   \item \code{age}        — Age of the animal (e.g. "P60")
-#'   \item \code{condition}  — Experimental condition (e.g. "control", "treated")
-#'   \item \code{tissue}     — Tissue of origin (e.g. "prefrontal cortex")
+#'   \item \code{animal_id}  -Individual animal identifier (e.g. "M01")
+#'   \item \code{species}    -Species name (e.g. "Mus musculus")
+#'   \item \code{sex}        -Sex of the animal (e.g. "male", "female")
+#'   \item \code{age}        -Age of the animal (e.g. "P60")
+#'   \item \code{condition}  -Experimental condition (e.g. "control", "treated")
+#'   \item \code{tissue}     -Tissue of origin (e.g. "prefrontal cortex")
 #' }
 #'
 #' \strong{Experiment Info:}
 #' \itemize{
-#'   \item \code{project}    — Project name (e.g. "memory_study")
-#'   \item \code{researcher} — Name of the researcher
-#'   \item \code{date}       — Date of the experiment
-#'   \item \code{notes}      — Any free-text notes
+#'   \item \code{project}    -Project name (e.g. "memory_study")
+#'   \item \code{researcher} -Name of the researcher
+#'   \item \code{date}       -Date of the experiment
+#'   \item \code{notes}      -Any free-text notes
 #' }
 #'
 #' \strong{Lineage:}
 #' \itemize{
-#'   \item \code{parent_id}    — Object ID of the direct parent (or "root")
-#'   \item \code{rds_parent}   — RDS number of the parent object (or "root")
-#'   \item \code{lineage}      — Full ancestry chain as a character vector
-#'   \item \code{children}     — Object IDs of children subset from this object
-#'   \item \code{rds_children} — RDS numbers of children objects
+#'   \item \code{parent_id}    -Object ID of the direct parent (or "root")
+#'   \item \code{rds_parent}   -RDS number of the parent object (or "root")
+#'   \item \code{lineage}      -Full ancestry chain as a character vector
+#'   \item \code{children}     -Object IDs of children subset from this object
+#'   \item \code{rds_children} -RDS numbers of children objects
 #' }
 #'
 #' \strong{Custom Fields:}
@@ -74,21 +74,21 @@
 #' # Read passport on an unstamped object (prints "No passport found")
 #' if (requireNamespace("SummarizedExperiment", quietly = TRUE)) {
 #'     se <- SummarizedExperiment::SummarizedExperiment()
-#'     seuratPassport(se, read = TRUE)
+#'     scPassport(se, read = TRUE)
 #' }
 #'
 #' \donttest{
-#' # --- Stamp a root object (no parent) ---
-#' WTHeme <- seuratPassport (WTHeme)
+#' # Stamp a root object (requires an existing Seurat object 'WTHeme')
+#' # WTHeme <- scPassport(WTHeme)
 #'
-#' # --- Stamp a child subset, linking to parent automatically ---
-#' EndofrHeme <- seuratPassport (EndofrHeme, parent = WTHeme)
+#' # Stamp a child subset, linking to parent automatically
+#' # EndofrHeme <- scPassport(EndofrHeme, parent = WTHeme)
 #'
-#' # --- Read existing passport without opening popup ---
-#' seuratPassport (WTHeme, read = TRUE)
+#' # Read existing passport without opening popup
+#' # scPassport(WTHeme, read = TRUE)
 #'
-#' # --- Or use the dedicated read function ---
-#' read_passport(WTHeme)
+#' # Or use the dedicated read function
+#' # read_passport(WTHeme)
 #' }
 #'
 #' @seealso \code{\link{read_passport}}, \code{\link{log_step}}
@@ -98,7 +98,7 @@
 #' @importFrom miniUI miniPage gadgetTitleBar miniContentPanel
 #'
 #' @export
-seuratPassport  <- function(obj, parent = NULL, read = FALSE) {
+scPassport  <- function(obj, parent = NULL, read = FALSE) {
 
   # Safety check
   if (is.null(obj)) {
@@ -125,7 +125,7 @@ seuratPassport  <- function(obj, parent = NULL, read = FALSE) {
 
   # ---- UI ----
   ui <- miniUI::miniPage(
-    miniUI::gadgetTitleBar("\U0001F9EC Seurat Passport"),
+    miniUI::gadgetTitleBar("Seurat Passport"),
     miniUI::miniContentPanel(
 
       shiny::h4("Identity"),
@@ -173,7 +173,7 @@ seuratPassport  <- function(obj, parent = NULL, read = FALSE) {
       shiny::fluidRow(
         shiny::column(12, shiny::textInput("parent_id", "Parent Object ID",
                                            value = existing("parent_id"),
-                                           placeholder = "e.g. WTHeme — leave blank if root"))
+                                           placeholder = "e.g. WTHeme - leave blank if root"))
       ),
       shiny::fluidRow(
         shiny::column(6, shiny::textInput("rds_parent", "RDS No. of Parent",
@@ -183,20 +183,20 @@ seuratPassport  <- function(obj, parent = NULL, read = FALSE) {
                                           value = if (!is.null(p$rds_children)) paste(p$rds_children, collapse = ", ") else "",
                                           placeholder = "e.g. 225, 226"))
       ),
-      shiny::tags$small("\U0001F4A1 Use RDS numbers directly with rds_function()"),
+      shiny::tags$small("Use RDS numbers directly with rds_function()"),
       shiny::tags$br(),
       shiny::tags$small(shiny::tags$b("Full chain: "),
-                        if (length(p$lineage) > 0) paste(p$lineage, collapse = " \u2192 ") else "root"),
+                        if (length(p$lineage) > 0) paste(p$lineage, collapse = " -> ") else "root"),
       shiny::tags$br(),
       shiny::fluidRow(
         shiny::column(12, shiny::textInput("children", "Child Objects (comma separated)",
                                            value = if (!is.null(p$children)) paste(p$children, collapse = ", ") else "",
                                            placeholder = "e.g. EndofrHeme224, gCapC, gCapB"))
       ),
-      shiny::tags$small("\U0001F4DD Record any subsets/children created FROM this object"),
+      shiny::tags$small("Record any subsets/children created FROM this object"),
       shiny::tags$br(), shiny::tags$br(),
 
-      shiny::h4("\u2795 Custom Fields"),
+      shiny::h4("Custom Fields"),
       shiny::p("Add any extra fields below (name = value):"),
       lapply(seq_along(custom_keys), function(i) {
         key <- custom_keys[i]
@@ -264,7 +264,7 @@ seuratPassport  <- function(obj, parent = NULL, read = FALSE) {
     })
 
     shiny::observeEvent(input$cancel, {
-      message("Cancelled — original object returned unchanged")
+      message("Cancelled -original object returned unchanged")
       shiny::stopApp(obj)
     })
   }
@@ -274,13 +274,13 @@ seuratPassport  <- function(obj, parent = NULL, read = FALSE) {
     shiny::runGadget(ui, server,
                      viewer = shiny::dialogViewer("Seurat Passport", width = 600, height = 850)),
     error = function(e) {
-      message("Gadget error: ", e$message, " — original object returned unchanged")
+      message("Gadget error: ", e$message, " -original object returned unchanged")
       return(obj)
     }
   )
 
   if (is.null(result)) {
-    message("Returned NULL — original object returned unchanged")
+    message("Returned NULL -original object returned unchanged")
     return(obj)
   }
 

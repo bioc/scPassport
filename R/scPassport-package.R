@@ -1,4 +1,4 @@
-#' seuratPassport: Passport System for Single-Cell Objects
+#' scPassport: Passport System for Single-Cell Objects
 #'
 #' @description
 #' Stamps Seurat, SingleCellExperiment, and SummarizedExperiment objects
@@ -12,7 +12,7 @@
 #'
 #' @section Main Functions:
 #' \itemize{
-#'   \item \code{\link{seuratPassport}} — Open popup to fill/update passport
+#'   \item \code{\link{scPassport}} — Open popup to fill/update passport
 #'   \item \code{\link{read_passport}}            — Print passport to console
 #'   \item \code{\link{log_step}}                 — Log a processing step
 #' }
@@ -20,7 +20,7 @@
 #' @section Typical Workflow:
 #' \preformatted{
 #' # 1. Stamp your root object
-#' WTHeme <- seuratPassport(WTHeme)
+#' WTHeme <- scPassport(WTHeme)
 #'
 #' # 2. Log processing steps
 #' WTHeme <- NormalizeData(WTHeme)
@@ -28,19 +28,19 @@
 #'
 #' # 3. Subset and stamp child, linking to parent
 #' EndofrHeme <- subset(WTHeme, subset = cell_type == "Endothelial")
-#' EndofrHeme <- seuratPassport(EndofrHeme, parent = WTHeme)
+#' EndofrHeme <- scPassport(EndofrHeme, parent = WTHeme)
 #'
 #' # 4. Read passport anytime
 #' read_passport(EndofrHeme)
 #' }
 #'
 #' @docType package
-#' @name seuratPassport
+#' @name scPassport
 "_PACKAGE"
 
 #' @importFrom S4Vectors metadata metadata<-
 #' @importFrom Rcpp evalCpp
-#' @useDynLib seuratPassport, .registration = TRUE
+#' @useDynLib scPassport, .registration = TRUE
 NULL
 
 # ---- Internal helpers: object-type-agnostic passport access ----

@@ -27,10 +27,11 @@ if (requireNamespace("SummarizedExperiment", quietly = TRUE)) {
 }
 
 \donttest{
-read_passport(WTHeme)
-
+# Read passport on a stamped Seurat object (requires existing object 'WTHeme')
+# read_passport(WTHeme)
+#
 # Or via seuratPassport with read = TRUE:
-seuratPassport(WTHeme, read = TRUE)
+# seuratPassport(WTHeme, read = TRUE)
 }
 
 }

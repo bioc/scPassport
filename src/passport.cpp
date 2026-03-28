@@ -89,6 +89,8 @@ List build_passport(
 //' @keywords internal
 // [[Rcpp::export]]
 bool validate_passport(List passport) {
+  if (passport.size() == 0) return false;
+
   CharacterVector required = CharacterVector::create(
     "object_id", "rds_self", "created",
     "animal_id", "species", "sex", "age", "condition", "tissue",
@@ -97,6 +99,7 @@ bool validate_passport(List passport) {
   );
 
   CharacterVector keys = passport.names();
+  if (keys.isNULL()) return false;
   for (int i = 0; i < required.size(); i++) {
     bool found = false;
     for (int j = 0; j < keys.size(); j++) {

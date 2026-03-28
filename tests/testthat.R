@@ -1,4 +1,4 @@
 library(testthat)
-library(seuratPassport)
+library(scPassport)
 
-test_check("seuratPassport")
+test_check("scPassport")

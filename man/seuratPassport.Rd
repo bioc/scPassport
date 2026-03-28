@@ -14,7 +14,7 @@ to stamp. Must not be NULL.}
 
 \item{parent}{A parent object of the same class that this object was subset
 from. If provided, \code{parent_id} and \code{lineage} are automatically
-populated from the parent's passport — no typing needed.
+populated from the parent's passport - no typing needed.
 Default is \code{NULL} (root object).}
 
 \item{read}{Logical. If \code{TRUE}, prints the existing passport to the
@@ -23,7 +23,9 @@ console instead of opening the popup. Default is \code{FALSE}.}
 \value{
 The same object with its passport slot filled in.
 If cancelled or an error occurs, the original object is returned unchanged
-— it will never return \code{NULL}.
+\itemize{
+\item it will never return \code{NULL}.
+}
 }
 \description{
 Stamps Seurat, SingleCellExperiment, and SummarizedExperiment objects
@@ -51,36 +53,36 @@ The passport contains the following fields:
 
 \strong{Identity:}
 \itemize{
-\item \code{object_id}  — Name/ID of this object (e.g. "WTHeme")
-\item \code{rds_self}   — RDS registry number of this object (e.g. 224)
-\item \code{created}    — Timestamp of when passport was stamped
+\item \code{object_id}  -Name/ID of this object (e.g. "WTHeme")
+\item \code{rds_self}   -RDS registry number of this object (e.g. 224)
+\item \code{created}    -Timestamp of when passport was stamped
 }
 
 \strong{Animal Info:}
 \itemize{
-\item \code{animal_id}  — Individual animal identifier (e.g. "M01")
-\item \code{species}    — Species name (e.g. "Mus musculus")
-\item \code{sex}        — Sex of the animal (e.g. "male", "female")
-\item \code{age}        — Age of the animal (e.g. "P60")
-\item \code{condition}  — Experimental condition (e.g. "control", "treated")
-\item \code{tissue}     — Tissue of origin (e.g. "prefrontal cortex")
+\item \code{animal_id}  -Individual animal identifier (e.g. "M01")
+\item \code{species}    -Species name (e.g. "Mus musculus")
+\item \code{sex}        -Sex of the animal (e.g. "male", "female")
+\item \code{age}        -Age of the animal (e.g. "P60")
+\item \code{condition}  -Experimental condition (e.g. "control", "treated")
+\item \code{tissue}     -Tissue of origin (e.g. "prefrontal cortex")
 }
 
 \strong{Experiment Info:}
 \itemize{
-\item \code{project}    — Project name (e.g. "memory_study")
-\item \code{researcher} — Name of the researcher
-\item \code{date}       — Date of the experiment
-\item \code{notes}      — Any free-text notes
+\item \code{project}    -Project name (e.g. "memory_study")
+\item \code{researcher} -Name of the researcher
+\item \code{date}       -Date of the experiment
+\item \code{notes}      -Any free-text notes
 }
 
 \strong{Lineage:}
 \itemize{
-\item \code{parent_id}    — Object ID of the direct parent (or "root")
-\item \code{rds_parent}   — RDS number of the parent object (or "root")
-\item \code{lineage}      — Full ancestry chain as a character vector
-\item \code{children}     — Object IDs of children subset from this object
-\item \code{rds_children} — RDS numbers of children objects
+\item \code{parent_id}    -Object ID of the direct parent (or "root")
+\item \code{rds_parent}   -RDS number of the parent object (or "root")
+\item \code{lineage}      -Full ancestry chain as a character vector
+\item \code{children}     -Object IDs of children subset from this object
+\item \code{rds_children} -RDS numbers of children objects
 }
 
 \strong{Custom Fields:}
@@ -127,17 +129,17 @@ if (requireNamespace("SummarizedExperiment", quietly = TRUE)) {
 }
 
 \donttest{
-# --- Stamp a root object (no parent) ---
-WTHeme <- seuratPassport (WTHeme)
+# Stamp a root object (requires an existing Seurat object 'WTHeme')
+# WTHeme <- seuratPassport(WTHeme)
 
-# --- Stamp a child subset, linking to parent automatically ---
-EndofrHeme <- seuratPassport (EndofrHeme, parent = WTHeme)
+# Stamp a child subset, linking to parent automatically
+# EndofrHeme <- seuratPassport(EndofrHeme, parent = WTHeme)
 
-# --- Read existing passport without opening popup ---
-seuratPassport (WTHeme, read = TRUE)
+# Read existing passport without opening popup
+# seuratPassport(WTHeme, read = TRUE)
 
-# --- Or use the dedicated read function ---
-read_passport(WTHeme)
+# Or use the dedicated read function
+# read_passport(WTHeme)
 }
 
 }

@@ -24,21 +24,21 @@
 #' }
 #'
 #' \donttest{
-#' seu <- log_step(seu, "QC filter",
-#'         params = list(min_cells = 3, min_features = 200))
-#'
-#' seu <- NormalizeData(seu)
-#' seu <- log_step(seu, "NormalizeData",
-#'         params = list(method = "LogNormalize", scale_factor = 10000))
-#'
-#' seu <- RunPCA(seu)
-#' seu <- log_step(seu, "RunPCA", params = list(npcs = 30))
-#'
-#' # View all logs:
-#' read_passport(seu)
+#' # Log steps on a Seurat object (requires an existing Seurat object 'seu')
+#' # seu <- log_step(seu, "QC filter",
+#' #         params = list(min_cells = 3, min_features = 200))
+#' #
+#' # seu <- NormalizeData(seu)
+#' # seu <- log_step(seu, "NormalizeData",
+#' #         params = list(method = "LogNormalize", scale_factor = 10000))
+#' #
+#' # seu <- RunPCA(seu)
+#' # seu <- log_step(seu, "RunPCA", params = list(npcs = 30))
+#' #
+#' # read_passport(seu)
 #' }
 #'
-#' @seealso \code{\link{seuratPassport}}, \code{\link{read_passport}}
+#' @seealso \code{\link{scPassport}}, \code{\link{read_passport}}
 #'
 #' @export
 log_step <- function(obj, step, params = list()) {

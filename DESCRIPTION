@@ -1,4 +1,4 @@
-Package: seuratPassport
+Package: scPassport
 Title: Passport System for Single-Cell Objects
 Version: 0.99.0
 Authors@R:
@@ -20,7 +20,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-biocViews: SingleCell, DataImport, Visualization, Infrastructure
 Depends:
     R (>= 4.3)
 Imports:
@@ -34,11 +33,11 @@ Suggests:
     Seurat,
     SingleCellExperiment,
     SummarizedExperiment,
-    BiocStyle,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
+biocViews: SingleCell, DataImport, Visualization, Infrastructure
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-BugReports: https://github.com/sedatkacar56/seuratPassport/issues
-URL: https://github.com/sedatkacar56/seuratPassport
+BugReports: https://github.com/sedatkacar56/scPassport/issues
+URL: https://github.com/sedatkacar56/scPassport
