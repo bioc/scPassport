@@ -1,4 +1,4 @@
-# seuratPassport 🧬
+# scPassport 🧬
 
 > A passport system for single-cell objects. Stamp your Seurat, SingleCellExperiment, or SummarizedExperiment data with full metadata, lineage tracking, and processing logs — all stored inside the `.rds` file itself.
 
@@ -8,7 +8,7 @@
 
 ```r
 # Install from GitHub
-remotes::install_github("sedatkacar56/seuratPassport")
+remotes::install_github("sedatkacar56/scPassport")
 ```
 
 ---
@@ -39,10 +39,10 @@ Every object gets a **passport** that travels with it forever:
 ### Seurat
 
 ```r
-library(seuratPassport)
+library(scPassport)
 
 # Stamp your object — popup opens, fill the form
-WTHeme <- seuratPassport(WTHeme)
+WTHeme <- scPassport(WTHeme)
 
 # Log processing steps
 WTHeme <- NormalizeData(WTHeme)
@@ -51,7 +51,7 @@ WTHeme <- log_step(WTHeme, "NormalizeData",
 
 # Stamp a child subset — parent linked automatically
 EndofrHeme <- subset(WTHeme, subset = cell_type == "Endothelial")
-EndofrHeme <- seuratPassport(EndofrHeme, parent = WTHeme)
+EndofrHeme <- scPassport(EndofrHeme, parent = WTHeme)
 
 # Read passport anytime
 read_passport(EndofrHeme)
@@ -60,13 +60,13 @@ read_passport(EndofrHeme)
 ### SingleCellExperiment
 
 ```r
-library(seuratPassport)
+library(scPassport)
 library(SingleCellExperiment)
 
 sce <- SingleCellExperiment(assays = list(counts = count_matrix))
 
 # Same functions — passport goes into metadata(sce)$passport
-sce <- seuratPassport(sce)
+sce <- scPassport(sce)
 sce <- log_step(sce, "scran normalization")
 read_passport(sce)
 ```
@@ -74,13 +74,13 @@ read_passport(sce)
 ### SummarizedExperiment
 
 ```r
-library(seuratPassport)
+library(scPassport)
 library(SummarizedExperiment)
 
 se <- SummarizedExperiment(assays = list(counts = count_matrix))
 
 # Same functions — passport goes into metadata(se)$passport
-se <- seuratPassport(se)
+se <- scPassport(se)
 se <- log_step(se, "DESeq2 normalization")
 read_passport(se)
 ```
@@ -128,9 +128,9 @@ ILMN_name      : ILMN_5564
 
 | Function | Description |
 |---|---|
-| `seuratPassport(obj)` | Open popup to fill/update passport |
-| `seuratPassport(obj, parent = WTHeme)` | Stamp child, auto-link to parent |
-| `seuratPassport(obj, read = TRUE)` | Print passport to console |
+| `scPassport(obj)` | Open popup to fill/update passport |
+| `scPassport(obj, parent = WTHeme)` | Stamp child, auto-link to parent |
+| `scPassport(obj, read = TRUE)` | Print passport to console |
 | `read_passport(obj)` | Print passport to console |
 | `log_step(obj, "step name", params = list(...))` | Log a processing step |
 
