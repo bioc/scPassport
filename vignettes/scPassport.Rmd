@@ -51,64 +51,67 @@ BiocManager::install("scPassport")
 # devtools::install_github("sedatkacar56/scPassport")
 ```
 
-# Quick Start
+# Quick Start with SummarizedExperiment
 
-## Runnable Example with SummarizedExperiment
+The following examples use a minimal `SummarizedExperiment` object and
+run without any external data. The same functions work identically with
+`Seurat` and `SingleCellExperiment` objects.
 
-The following example runs without any external data. It demonstrates
-`log_step()` and `read_passport()` on a minimal `SummarizedExperiment` object.
+## Load the package
 
-```{r runnable-example}
+```{r load}
 library(scPassport)
-if (requireNamespace("SummarizedExperiment", quietly = TRUE)) {
-    se <- SummarizedExperiment::SummarizedExperiment()
-
-    # Log a processing step
-    se <- log_step(se, "example step", params = list(filter = "none"))
-
-    # Read passport (will show no passport yet)
-    read_passport(se)
-}
 ```
 
-## Stamping a root object
+## Create a minimal object
 
-Call `scPassport()` on any Seurat object. An interactive Shiny popup
-opens in your RStudio Viewer. Fill in the fields and click **Done**.
+```{r create-se}
+se <- SummarizedExperiment::SummarizedExperiment()
+se
+```
 
-```{r stamp-root, eval=FALSE}
-library(scPassport)
+## Check passport on unstamped object
 
-# WTHeme is your Seurat object
+```{r read-empty}
+# Before stamping — prints "No passport found"
+read_passport(se)
+```
+
+## Log processing steps
+
+```{r log-steps}
+# Log a quality control step
+se <- log_step(se, "QC filter", params = list(min_cells = 3))
+
+# Log a normalization step
+se <- log_step(se, "Normalization", params = list(method = "LogNormalize"))
+
+# Log a dimension reduction step
+se <- log_step(se, "PCA", params = list(npcs = 30))
+```
+
+## Read the processing log
+
+```{r read-log}
+# Now read_passport shows the processing log
+read_passport(se)
+```
+
+## Stamping with interactive popup (Seurat workflow)
+
+The `scPassport()` function opens an interactive Shiny popup.
+This requires an existing Seurat object in your R session.
+
+```{r seurat-workflow, eval=FALSE}
+# Stamp a root object
 WTHeme <- scPassport(WTHeme)
-```
 
-The passport is now stored in `WTHeme@misc$passport` and will persist
-whenever you `saveRDS(WTHeme, "WTHeme.rds")`.
-
-## Stamping a child object (subsetting workflow)
-
-When you subset an object, pass the parent so the lineage is filled
-automatically — no typing needed.
-
-```{r stamp-child, eval=FALSE}
-# Subset endothelial cells from WTHeme
+# Stamp a child subset, linking lineage to parent automatically
 EndofrHeme <- subset(WTHeme, idents = "Endothelial")
-
-# parent = WTHeme fills parent_id and lineage automatically
 EndofrHeme <- scPassport(EndofrHeme, parent = WTHeme)
-```
 
-`EndofrHeme@misc$passport$lineage` will now contain the full ancestry chain
-back to the root object.
-
-## Reading a passport
-
-```{r read, eval=FALSE}
-# Print to console
+# Read passport
 read_passport(WTHeme)
-
-# Or via the main function with read = TRUE
 scPassport(WTHeme, read = TRUE)
 ```
 
@@ -147,23 +150,14 @@ No processing steps logged yet.
 Use `log_step()` after each major processing step. This creates an auditable
 record of what was done to the object, with timestamps and cell counts.
 
-```{r log, eval=FALSE}
+```{r log-seurat, eval=FALSE}
 library(Seurat)
-
 WTHeme <- NormalizeData(WTHeme)
 WTHeme <- log_step(WTHeme, "NormalizeData",
-                   params = list(method = "LogNormalize",
-                                 scale_factor = 10000))
-
-WTHeme <- FindVariableFeatures(WTHeme)
-WTHeme <- log_step(WTHeme, "FindVariableFeatures",
-                   params = list(nfeatures = 2000))
-
-WTHeme <- ScaleData(WTHeme)
-WTHeme <- log_step(WTHeme, "ScaleData")
-
+                   params = list(method = "LogNormalize", scale_factor = 10000))
 WTHeme <- RunPCA(WTHeme, npcs = 30)
 WTHeme <- log_step(WTHeme, "RunPCA", params = list(npcs = 30))
+read_passport(WTHeme)
 ```
 
 The processing log is visible at the bottom of `read_passport()` output:
