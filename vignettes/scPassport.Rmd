@@ -17,8 +17,7 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse  = TRUE,
-  comment   = "#>",
-  eval      = FALSE
+  comment   = "#>"
 )
 ```
 
@@ -54,12 +53,30 @@ BiocManager::install("scPassport")
 
 # Quick Start
 
+## Runnable Example with SummarizedExperiment
+
+The following example runs without any external data. It demonstrates
+`log_step()` and `read_passport()` on a minimal `SummarizedExperiment` object.
+
+```{r runnable-example}
+library(scPassport)
+if (requireNamespace("SummarizedExperiment", quietly = TRUE)) {
+    se <- SummarizedExperiment::SummarizedExperiment()
+
+    # Log a processing step
+    se <- log_step(se, "example step", params = list(filter = "none"))
+
+    # Read passport (will show no passport yet)
+    read_passport(se)
+}
+```
+
 ## Stamping a root object
 
 Call `scPassport()` on any Seurat object. An interactive Shiny popup
 opens in your RStudio Viewer. Fill in the fields and click **Done**.
 
-```{r stamp-root}
+```{r stamp-root, eval=FALSE}
 library(scPassport)
 
 # WTHeme is your Seurat object
@@ -74,7 +91,7 @@ whenever you `saveRDS(WTHeme, "WTHeme.rds")`.
 When you subset an object, pass the parent so the lineage is filled
 automatically — no typing needed.
 
-```{r stamp-child}
+```{r stamp-child, eval=FALSE}
 # Subset endothelial cells from WTHeme
 EndofrHeme <- subset(WTHeme, idents = "Endothelial")
 
@@ -87,7 +104,7 @@ back to the root object.
 
 ## Reading a passport
 
-```{r read}
+```{r read, eval=FALSE}
 # Print to console
 read_passport(WTHeme)
 
@@ -130,7 +147,7 @@ No processing steps logged yet.
 Use `log_step()` after each major processing step. This creates an auditable
 record of what was done to the object, with timestamps and cell counts.
 
-```{r log}
+```{r log, eval=FALSE}
 library(Seurat)
 
 WTHeme <- NormalizeData(WTHeme)

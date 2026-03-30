@@ -1,1 +1,4 @@
 *.BiocCheck
+*.o
+*.dll
+*.Rhistory
