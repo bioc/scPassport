@@ -1,6 +1,6 @@
 Package: scPassport
 Title: Passport System for Single-Cell Objects
-Version: 1.0.0
+Version: 1.1.0
 Authors@R:
     person("Sedat", "Kacar",
            email = "sedatkacar56@gmail.com",
